@@ -1,0 +1,39 @@
+version: '2'
+services:
+  mongodb:
+    image: mongo:2.4
+    container_name: mongodb
+    ports:
+     - "27017:27017"
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+     - "5672:5672"
+     - "15672:15672"
+    environment:
+     - RABBITMQ_DEFAULT_USER=test
+     - RABBITMQ_DEFAULT_PASS=password
+  config:
+    image: pschlae/patient-config-service
+    container_name: patient-config
+    ports:
+     - "8888:8888"
+    volumes:
+     - ..:/home/patrick/Projects/microservice-health
+    depends_on:
+     - mongodb
+     - rabbitmq
+  discovery:
+    image: pschlae/patient-discovery-service
+    container_name: patient-discovery
+    ports:
+     - "8761:8761"
+  gateway:
+    image: pschlae/patient-gateway-service
+    container_name: patient-gateway
+    ports:
+     - "8080:8080"
+    depends_on:
+     - config
+     - discovery
