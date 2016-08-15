@@ -2,12 +2,12 @@ version: '2'
 services:
   mongodb:
     image: mongo:2.4
-    container_name: mongodb
+    container_name: patient-mongodb
     ports:
      - "27017:27017"
   rabbitmq:
     image: rabbitmq:3-management
-    container_name: rabbitmq
+    container_name: patient-rabbitmq
     ports:
      - "5672:5672"
      - "15672:15672"
@@ -39,7 +39,7 @@ services:
     depends_on:
      - discovery
      - config
-  price-command-side:
+  patient-command-side:
     image: pschlae/patient-command-side:latest
     container_name: patient-cmd-side
     depends_on:
@@ -51,7 +51,7 @@ services:
       - "9000"
     environment:
      - SPRING_PROFILES_ACTIVE=production
-  price-query-side:
+  patient-query-side:
     image: pschlae/patient-query-side:latest
     container_name: patient-qry-side
     depends_on:
