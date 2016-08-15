@@ -1,0 +1,2 @@
+include 'patient-commons','patient-command-side','patient-query-side','patient-discovery-service','patient-config-service','patient-gateway-service'
+
